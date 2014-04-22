@@ -1,46 +1,43 @@
 ﻿using System;
+using System.Collections.Generic;
 
-namespace PdmFileSimpleReader {
+namespace PdmReader.Models.PdmModels {
     /// <summary>  
-    /// 视图列信息  
+    /// 关键字  
     /// </summary>  
-    public class ViewColumnInfo {
-        public ViewInfo OwnerViewInfo {
-            get;
-            private set;
-        }
-
-        public ViewColumnInfo(ViewInfo view) {
-            OwnerViewInfo = view;
-        }
+    public class PdmKey {
         /// <summary>  
-        /// 列Id  
+        /// 关键字标识  
         /// </summary>  
-        public string ViewColumnId {
+        public string KeyId {
             get;
             set;
         }
+
         /// <summary>  
-        /// 对象id  
+        /// 对象Id  
         /// </summary>  
         public string ObjectID {
             get;
             set;
         }
+
         /// <summary>  
-        /// 列名  
+        /// Key名  
         /// </summary>  
         public string Name {
             get;
             set;
         }
+
         /// <summary>  
-        /// 列代码=>表字段名  
+        /// Key代码,对应数据库中的Key.  
         /// </summary>  
         public string Code {
             get;
             set;
         }
+
         /// <summary>  
         /// 创建日期  
         /// </summary>  
@@ -48,6 +45,7 @@ namespace PdmFileSimpleReader {
             get;
             set;
         }
+
         /// <summary>  
         /// 创建人  
         /// </summary>  
@@ -55,6 +53,7 @@ namespace PdmFileSimpleReader {
             get;
             set;
         }
+
         /// <summary>  
         /// 修改日期  
         /// </summary>  
@@ -62,6 +61,7 @@ namespace PdmFileSimpleReader {
             get;
             set;
         }
+
         /// <summary>  
         /// 修改人  
         /// </summary>  
@@ -69,33 +69,39 @@ namespace PdmFileSimpleReader {
             get;
             set;
         }
+
         /// <summary>  
-        /// 注释  
+        /// Key涉及的列  
         /// </summary>  
-        public string Comment {
+        public IList<ColumnInfo> Columns {
             get;
-            set;
+            private set;
         }
-        /// <summary>  
-        /// 数据类型  
-        /// </summary>  
-        public string DataType {
-            get;
-            set;
+
+        public void AddColumn(ColumnInfo mColumn) {
+            if(Columns == null)
+                Columns = new List<ColumnInfo>();
+            Columns.Add(mColumn);
         }
+
         /// <summary>  
-        /// 数据长度  
+        /// Key涉及的列代码，根据辞可访问到列信息.对应列的ColumnId  
         /// </summary>  
-        public string Length {
+        public List<string> ColumnObjCodes {
             get;
-            set;
+            private set;
         }
-        /// <summary>  
-        /// 描述  
-        /// </summary>  
-        public string Description {
-            get;
-            set;
+
+        public void AddColumnObjCode(string objCode) {
+            ColumnObjCodes.Add(objCode);
+        }
+
+        private TableInfo _ownerTable = null;
+
+        public PdmKey(TableInfo table) {
+            ColumnObjCodes = new List<string>();
+            _ownerTable = table;
         }
     }
+
 }

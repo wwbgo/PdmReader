@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace PdmFileSimpleReader {
+namespace PdmReader.Models.PdmModels {
     /// <summary>  
     /// PDM实体集合  
     /// </summary>  

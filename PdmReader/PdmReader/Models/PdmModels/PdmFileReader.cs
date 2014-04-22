@@ -8,7 +8,7 @@
 using System;
 using System.Xml;
 
-namespace PdmFileSimpleReader {
+namespace PdmReader.Models.PdmModels {
     public class PdmFileReader {
         private const string a = "attribute", c = "collection", o = "object";
 

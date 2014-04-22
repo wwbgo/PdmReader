@@ -1,42 +1,49 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
-namespace PdmFileSimpleReader {
+namespace PdmReader.Models.PdmModels {
     /// <summary>  
-    /// 视图信息  
+    /// 表信息  
     /// </summary>  
-    public class ViewInfo {
-        public ViewInfo() {
-            Columns = new List<ViewColumnInfo>();
+    public class TableInfo {
+        public TableInfo() {
+            Keys = new List<PdmKey>();
+            Columns = new List<ColumnInfo>();
         }
+
         /// <summary>  
-        /// 视图ID  
+        /// 表ID  
         /// </summary>  
-        public string ViewId {
+        public string TableId {
             get;
             set;
         }
+
         /// <summary>  
-        /// 视图对象id  
+        /// 对象ID  
         /// </summary>  
-        public string ObjectId {
+        public string ObjectID {
             get;
             set;
         }
+
         /// <summary>  
-        /// 视图名  
+        /// 表名  
         /// </summary>  
         public string Name {
             get;
             set;
         }
+
         /// <summary>  
-        /// 视图代码=>数据库中的视图名  
+        /// 表代码,对应数据库表名  
         /// </summary>  
         public string Code {
             get;
             set;
         }
+
         /// <summary>  
         /// 创建日期  
         /// </summary>  
@@ -44,6 +51,7 @@ namespace PdmFileSimpleReader {
             get;
             set;
         }
+
         /// <summary>  
         /// 创建人  
         /// </summary>  
@@ -51,6 +59,7 @@ namespace PdmFileSimpleReader {
             get;
             set;
         }
+
         /// <summary>  
         /// 修改日期  
         /// </summary>  
@@ -58,6 +67,7 @@ namespace PdmFileSimpleReader {
             get;
             set;
         }
+
         /// <summary>  
         /// 修改人  
         /// </summary>  
@@ -65,13 +75,7 @@ namespace PdmFileSimpleReader {
             get;
             set;
         }
-        /// <summary>  
-        /// 视图SQL  
-        /// </summary>  
-        public string ViewSQLQuery {
-            get;
-            set;
-        }
+
         /// <summary>  
         /// 注释  
         /// </summary>  
@@ -79,26 +83,65 @@ namespace PdmFileSimpleReader {
             get;
             set;
         }
+
         /// <summary>  
-        /// 描述  
+        /// 物理选项  
+        /// </summary>  
+        public string PhysicalOptions {
+            get;
+            set;
+        }
+
+
+        /// <summary>  
+        /// 表列集合  
+        /// </summary>  
+        public IList<ColumnInfo> Columns {
+            get;
+            private set;
+        }
+
+        /// <summary>  
+        /// 表Key集合  
+        /// </summary>  
+        public IList<PdmKey> Keys {
+            get;
+            private set;
+        }
+
+        public void AddColumn(ColumnInfo mColumn) {
+            if(Columns == null)
+                Columns = new List<ColumnInfo>();
+            Columns.Add(mColumn);
+        }
+
+        public void AddKey(PdmKey mKey) {
+            if(Keys == null)
+                Keys = new List<PdmKey>();
+            Keys.Add(mKey);
+        }
+        /// <summary>  
+        /// 主键Key代码.=>KeyId  
+        /// </summary>  
+        public string PrimaryKeyRefCode {
+            get;
+            set;
+        }
+        /// <summary>  
+        /// 主关键字  
+        /// </summary>  
+        public PdmKey PrimaryKey {
+            get {
+                return Keys.FirstOrDefault(key => key.KeyId == PrimaryKeyRefCode);
+            }
+        }
+        /// <summary>  
+        /// 表的描述=>PDM Notes.  
         /// </summary>  
         public string Description {
             get;
             set;
         }
-        /// <summary>  
-        /// 标签化的SQL查询  
-        /// </summary>  
-        public string TaggedSQLQuery {
-            get;
-            set;
-        }
-        /// <summary>  
-        /// 视图列集合.  
-        /// </summary>  
-        public List<ViewColumnInfo> Columns {
-            get;
-            private set;
-        }
     }
+
 }

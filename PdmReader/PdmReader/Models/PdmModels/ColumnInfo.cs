@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace PdmFileSimpleReader {
+namespace PdmReader.Models.PdmModels {
     /// <summary>  
     /// 表列信息  
     /// </summary>  
