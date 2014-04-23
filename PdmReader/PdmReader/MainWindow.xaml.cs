@@ -15,6 +15,7 @@ namespace PdmReader {
 
         public MainWindow() {
             InitializeComponent();
+            Folder.Focus();
         }
 
         private string _folderShow = "请选择文件夹...";
@@ -30,14 +31,16 @@ namespace PdmReader {
 
         private void Folder_Click(object sender, RoutedEventArgs e) {
             var fbd = new FolderBrowserDialog();
-            fbd.ShowDialog();
-            FolderShow = fbd.SelectedPath;
-            //Folder.Text = fbd.SelectedPath;
-            ListShow.ItemsSource = GetFiles.GetPdmFiles(FolderShow);
+            var result = fbd.ShowDialog();
+            if(result == System.Windows.Forms.DialogResult.Cancel)
+                return;
+            Folder.Text = fbd.SelectedPath;
+            ListShow.ItemsSource = GetFiles.GetPdmFiles(Folder.Text);
         }
 
         private void Folder_KeyDown(object sender, KeyEventArgs e) {
-
+            if(e.Key == Key.Return)
+                ListShow.ItemsSource = GetFiles.GetPdmFiles(Folder.Text);
         }
     }
 }

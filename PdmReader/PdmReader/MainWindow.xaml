@@ -6,7 +6,6 @@
         Width="525"
         Height="350">
     <Grid>
-
         <StackPanel HorizontalAlignment="Left"
                     VerticalAlignment="Top"
                     Orientation="Horizontal">
@@ -15,7 +14,7 @@
                      MaxWidth="600"
                      HorizontalAlignment="Left"
                      KeyDown="Folder_KeyDown"
-                     Text="{Binding FolderShow}"
+                     Text="请选择文件夹..."
                      TextWrapping="Wrap" />
             <Button HorizontalAlignment="Left"
                     Click="Folder_Click"
