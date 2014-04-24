@@ -43,7 +43,7 @@ namespace PdmReader {
             }
         }
 
-        private IEnumerable<string> GetPdmFiles(string dir, string searchPattern) {
+        private static IEnumerable<string> GetPdmFiles(string dir, string searchPattern) {
             return string.IsNullOrEmpty(searchPattern) ? GetFiles.GetPdmFiles(dir) : GetFiles.GetPdmFiles(dir, searchPattern);
         }
 
