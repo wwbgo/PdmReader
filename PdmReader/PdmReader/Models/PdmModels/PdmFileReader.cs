@@ -151,7 +151,7 @@ namespace PdmReader.Models.PdmModels {
             return mTable;
         }
 
-        //PDM文件中的日期格式采用的是当前日期与1970年1月1日8点之差的秒树来保存.  
+        //PDM文件中的日期格式采用的是当前日期与1970年1月1日8点之差的秒数来保存.  
         private DateTime _baseDateTime = new DateTime(1970, 1, 1, 8, 0, 0);
         private DateTime String2DateTime(string dateString) {
             var theTicker = Int64.Parse(dateString);

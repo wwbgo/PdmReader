@@ -73,12 +73,21 @@ namespace PdmReader {
 
         private void ListShow_MouseDoubleClick(object sender, MouseButtonEventArgs e) {
             if(ListShow.SelectedItem == null) return;
-            var tableWindow = new TableWindow {
-                Title = ListShow.SelectedValue.ToString()
-            };
             var pdmFileReader = new PdmFileReader();
             var pdmModels = pdmFileReader.ReadFromFile(ListShow.SelectedValue.ToString());
-            tableWindow.DataContext = pdmModels;
+            var tableWindow = new TableWindow {
+                Title = ListShow.SelectedValue.ToString(),
+                Views = {
+                    ItemsSource = pdmModels.Views,
+                    IsReadOnly = true,
+                    CanUserAddRows = false
+                },
+                Tables = {
+                    ItemsSource = pdmModels.Tables,
+                    IsReadOnly = true,
+                    CanUserAddRows = false
+                }
+            };
             tableWindow.Show();
         }
 
