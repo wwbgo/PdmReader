@@ -5,10 +5,10 @@ namespace PdmReader {
     public partial class TableWindow {
         public TableWindow() {
             InitializeComponent();
-        }
-
-        private void Tables_MouseEnterLeave(object sender, MouseEventArgs e) {
-
+            TableWindow1.KeyDown += (sender, e) => {
+                if(e.Key == Key.Escape)
+                    TableWindow1.Close();
+            };
         }
 
         private void Tables_MouseDoubleClick(object sender, MouseButtonEventArgs e) {
@@ -36,11 +36,5 @@ namespace PdmReader {
             };
             tableInfo.Show();
         }
-
-        private void TableWindow1_KeyDown(object sender, KeyEventArgs e) {
-            if(e.Key == Key.Escape)
-                TableWindow1.Close();
-        }
-
     }
 }

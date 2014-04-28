@@ -10,31 +10,51 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
             <RowDefinition />
         </Grid.RowDefinitions>
         <StackPanel Grid.Row="0"
                     HorizontalAlignment="Left"
                     VerticalAlignment="Top"
                     Orientation="Horizontal">
-            <TextBox Name="Folder"
+            <StackPanel Name="LockAll"
+                        Orientation="Horizontal">
+                <TextBox Name="Folder"
+                         MinWidth="350"
+                         MaxWidth="600"
+                         HorizontalAlignment="Left"
+                         KeyDown="Folder_KeyDown"
+                         Text="请选择文件夹..."
+                         TextWrapping="Wrap" />
+                <Button HorizontalAlignment="Left"
+                        Click="Folder_Click"
+                        Content="..." />
+                <ComboBox Name="SqlCheck">
+                    <ComboBoxItem>All</ComboBoxItem>
+                    <ComboBoxItem>Oracle</ComboBoxItem>
+                    <ComboBoxItem>SqlServer</ComboBoxItem>
+                </ComboBox>
+            </StackPanel>
+            <CheckBox Name="Lock"
+                      Click="Lock_Click"
+                      Content="Lock" />
+        </StackPanel>
+        <StackPanel Grid.Row="1"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Top"
+                    Orientation="Horizontal">
+            <TextBox Name="Search"
                      MinWidth="350"
                      MaxWidth="600"
                      HorizontalAlignment="Left"
-                     KeyDown="Folder_KeyDown"
-                     MouseDoubleClick="Folder_MouseDoubleClick"
-                     Text="请选择文件夹..."
+                     Text="查询表名或字段名"
                      TextWrapping="Wrap" />
             <Button HorizontalAlignment="Left"
-                    Click="Folder_Click"
-                    Content="..." />
-            <ComboBox Name="SqlCheck">
-                <ComboBoxItem>All</ComboBoxItem>
-                <ComboBoxItem>Oracle</ComboBoxItem>
-                <ComboBoxItem>SqlServer</ComboBoxItem>
-            </ComboBox>
+                    Click="Search_Click"
+                    Content="Search" />
         </StackPanel>
         <ListBox Name="ListShow"
-                 Grid.Row="1"
+                 Grid.Row="2"
                  MinHeight="200"
                  HorizontalAlignment="Stretch"
                  VerticalAlignment="Top"
