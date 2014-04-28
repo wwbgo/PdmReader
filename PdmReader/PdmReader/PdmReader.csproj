@@ -178,12 +178,6 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="32x32.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="64x64.ico" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="042405--48x48.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -18,10 +18,12 @@
                   HorizontalAlignment="Stretch"
                   MouseDoubleClick="Tables_MouseDoubleClick"
                   MouseEnter="Tables_MouseEnterLeave"
-                  MouseLeave="Tables_MouseEnterLeave" />
+                  MouseLeave="Tables_MouseEnterLeave"
+                  SelectionUnit="CellOrRowHeader" />
         <DataGrid Name="Views"
                   Grid.Row="1"
                   HorizontalAlignment="Stretch"
-                  MouseDoubleClick="Views_MouseDoubleClick" />
+                  MouseDoubleClick="Views_MouseDoubleClick"
+                  SelectionUnit="CellOrRowHeader" />
     </Grid>
 </Window>
