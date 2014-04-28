@@ -106,6 +106,7 @@ namespace PdmReader {
             foreach(var listShow in ListShows) {
                 PdmModels.Add(PdmFileReader.ReadFromFile(listShow));
             }
+            Lock.IsChecked = true;
         }
         private void Folder_KeyDown(object sender, KeyEventArgs e) {
             if(e.Key == Key.Return) {
@@ -115,6 +116,7 @@ namespace PdmReader {
                 foreach(var listShow in ListShows) {
                     PdmModels.Add(PdmFileReader.ReadFromFile(listShow));
                 }
+                Lock.IsChecked = true;
             }
         }
 
@@ -139,21 +141,23 @@ namespace PdmReader {
 
         private void Search_Click(object sender, RoutedEventArgs e) {
             if(!string.IsNullOrWhiteSpace(Search.Text) && PdmModels.Any()) {
-                //var source = PdmModels.Where(r => r.Tables.Any(t => Search.Text.ToLower().Contains(t.Code.ToLower())));
-                var source = PdmModels.SelectMany(r => r.Tables).Where(r => Search.Text.ToLower().Contains(r.Code.ToLower()) || Search.Text.ToLower().Contains(r.Name.ToLower()));
+                //var source = PdmModels.SelectMany(r => r.Tables).Where(r => r.Columns.Select(v => v.Code).Contains(Search.Text) || r.Columns.Select(v => v.Name).Contains(Search.Text));
+                var source = PdmModels.SelectMany(r => r.Tables).Where(r => r.Code.ToLower().Contains(Search.Text.ToLower()) || r.Name.ToLower().Contains(Search.Text.ToLower()) ||
+                    Search.Text.ToLower().Contains(r.Code.ToLower()) || Search.Text.ToLower().Contains(r.Name.ToLower()) ||
+                    r.Columns.Select(v => v.Code).Contains(Search.Text) || r.Columns.Select(v => v.Name).Contains(Search.Text));
                 var searchWindow = new SearchWindow {
                     Title = string.Format("关键字：{0}", Search.Text),
                     Search = {
                         IsReadOnly = true,
                         CanUserAddRows = false,
-                        ItemsSource = source.SelectMany(r => r.Columns)
+                        ItemsSource = source
                     }
                 };
                 searchWindow.Show();
             }
         }
 
-        private void Lock_Click(object sender, RoutedEventArgs e) {
+        private void Lock_Checked(object sender, RoutedEventArgs e) {
             if(Lock.IsChecked != null && Lock.IsChecked == true) {
                 LockAll.IsEnabled = false;
                 return;

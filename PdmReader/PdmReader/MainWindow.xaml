@@ -36,8 +36,9 @@
                 </ComboBox>
             </StackPanel>
             <CheckBox Name="Lock"
-                      Click="Lock_Click"
-                      Content="Lock" />
+                      Checked="Lock_Checked"
+                      Content="Lock"
+                      Unchecked="Lock_Checked" />
         </StackPanel>
         <StackPanel Grid.Row="1"
                     HorizontalAlignment="Left"
