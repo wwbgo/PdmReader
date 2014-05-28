@@ -7,6 +7,26 @@
         Height="350"
         MinWidth="520"
         MinHeight="350">
+    <Window.Resources>
+        <DataTemplate x:Key="ComboBoxData"
+                      DataType="ComboBoxItem">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <TextBlock Grid.Column="1"
+                           VerticalAlignment="Center"
+                           Text="{Binding}" />
+                <Button x:Name="DeleteBtn"
+                        Height="20"
+                        VerticalContentAlignment="Top"
+                        Background="Silver"
+                        Click="DeleteBtn_OnClick"
+                        Content="x" />
+            </Grid>
+        </DataTemplate>
+    </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
@@ -19,13 +39,14 @@
                     Orientation="Horizontal">
             <StackPanel Name="LockAll"
                         Orientation="Horizontal">
-                <TextBox Name="Folder"
-                         MinWidth="350"
-                         MaxWidth="600"
-                         HorizontalAlignment="Left"
-                         KeyDown="Folder_KeyDown"
-                         Text="请选择文件夹..."
-                         TextWrapping="Wrap" />
+                <ComboBox Name="Folder"
+                          MinWidth="350"
+                          MaxWidth="600"
+                          HorizontalAlignment="Left"
+                          IsEditable="True"
+                          ItemTemplate="{StaticResource ComboBoxData}"
+                          KeyDown="Folder_KeyDown"
+                          Text="请选择文件夹..." />
                 <Button HorizontalAlignment="Left"
                         Click="Folder_Click"
                         Content="..." />

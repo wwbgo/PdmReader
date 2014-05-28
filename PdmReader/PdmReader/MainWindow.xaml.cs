@@ -3,6 +3,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
 using PdmReader.Models;
 using PdmReader.Models.PdmModels;
@@ -23,8 +24,9 @@ namespace PdmReader {
         }
 
         private void Init() {
+            Folder.ItemsSource = ConfigSetting.ReadConfig().Select(r => r.Value);
             Folder.Focus();
-            Folder.MouseDoubleClick += (sender, e) => Folder.SelectAll();
+            //Folder.MouseDoubleClick += (sender, e) => Folder.SelectAll();
             Search.MouseDoubleClick += (sender, e) => Search.SelectAll();
         }
 
@@ -106,6 +108,8 @@ namespace PdmReader {
             foreach(var listShow in ListShows) {
                 PdmModels.Add(PdmFileReader.ReadFromFile(listShow));
             }
+            SelectedPath.WriteConfig();
+            Folder.ItemsSource = ConfigSetting.ReadConfig().Select(r => r.Value);
             Lock.IsChecked = true;
         }
         private void Folder_KeyDown(object sender, KeyEventArgs e) {
@@ -116,6 +120,8 @@ namespace PdmReader {
                 foreach(var listShow in ListShows) {
                     PdmModels.Add(PdmFileReader.ReadFromFile(listShow));
                 }
+                SelectedPath.WriteConfig();
+                Folder.ItemsSource = ConfigSetting.ReadConfig().Select(r => r.Value);
                 Lock.IsChecked = true;
             }
         }
@@ -140,21 +146,22 @@ namespace PdmReader {
         }
 
         private void Search_Click(object sender, RoutedEventArgs e) {
-            if(!string.IsNullOrWhiteSpace(Search.Text) && PdmModels.Any()) {
-                //var source = PdmModels.SelectMany(r => r.Tables).Where(r => r.Columns.Select(v => v.Code).Contains(Search.Text) || r.Columns.Select(v => v.Name).Contains(Search.Text));
-                var source = PdmModels.SelectMany(r => r.Tables).Where(r => r.Code.ToLower().Contains(Search.Text.ToLower()) || r.Name.ToLower().Contains(Search.Text.ToLower()) ||
-                    Search.Text.ToLower().Contains(r.Code.ToLower()) || Search.Text.ToLower().Contains(r.Name.ToLower()) ||
-                    r.Columns.Select(v => v.Code).Contains(Search.Text) || r.Columns.Select(v => v.Name).Contains(Search.Text));
-                var searchWindow = new SearchWindow {
-                    Title = string.Format("关键字：{0}", Search.Text),
-                    Search = {
-                        IsReadOnly = true,
-                        CanUserAddRows = false,
-                        ItemsSource = source
-                    }
-                };
-                searchWindow.Show();
-            }
+            if(string.IsNullOrWhiteSpace(Search.Text) || !PdmModels.Any()) return;
+            //var source = PdmModels.SelectMany(r => r.Tables).Where(r => r.Columns.Select(v => v.Code).Contains(Search.Text) || r.Columns.Select(v => v.Name).Contains(Search.Text));
+            var source = PdmModels.SelectMany(r => r.Tables).Where(r => r.Code.ToLower().Contains(Search.Text.ToLower()) || r.Name.ToLower().Contains(Search.Text.ToLower()) ||
+                                                                        Search.Text.ToLower().Contains(r.Code.ToLower()) || Search.Text.ToLower().Contains(r.Name.ToLower()) ||
+                                                                        r.Columns.Select(v => v.Code).Contains(Search.Text) || r.Columns.Select(v => v.Name).Contains(Search.Text));
+            if(!source.Any())
+                return;
+            var searchWindow = new SearchWindow {
+                Title = string.Format("关键字：{0}", Search.Text),
+                Search = {
+                    IsReadOnly = true,
+                    CanUserAddRows = false,
+                    ItemsSource = source
+                }
+            };
+            searchWindow.Show();
         }
 
         private void Lock_Checked(object sender, RoutedEventArgs e) {
@@ -165,6 +172,14 @@ namespace PdmReader {
             if(Lock.IsChecked != null && Lock.IsChecked == false) {
                 LockAll.IsEnabled = true;
             }
+        }
+
+        private void DeleteBtn_OnClick(object sender, RoutedEventArgs e) {
+            var btn = sender as Button;
+            if(btn == null)
+                return;
+            btn.DataContext.ToString().DeleteConfig();
+            Folder.ItemsSource = ConfigSetting.ReadConfig().Select(r => r.Value);
         }
     }
 }
