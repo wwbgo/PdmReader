@@ -15,13 +15,13 @@
                     <ColumnDefinition />
                     <ColumnDefinition />
                 </Grid.ColumnDefinitions>
+                <Image x:Name="DeleteBtn"
+                       Cursor="Hand"
+                       MouseLeftButtonDown="DeleteBtn_OnMouseLeftButtonDown"
+                       Source="x.png" />
                 <TextBlock Grid.Column="1"
                            VerticalAlignment="Center"
                            Text="{Binding}" />
-                <Button x:Name="DeleteBtn"
-                        Click="DeleteBtn_OnClick">
-                    <Image Source="x.png" />
-                </Button>
             </Grid>
         </DataTemplate>
     </Window.Resources>

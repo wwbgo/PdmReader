@@ -173,14 +173,6 @@ namespace PdmReader {
             }
         }
 
-        private void DeleteBtn_OnClick(object sender, RoutedEventArgs e) {
-            var btn = sender as Button;
-            if(btn == null)
-                return;
-            btn.DataContext.ToString().DeleteConfig();
-            Folder.ItemsSource = ConfigSetting.ReadConfig().Select(r => r.Value);
-        }
-
         private void Folder_SelectionChanged(object sender, SelectionChangedEventArgs e) {
             if(Folder.SelectedValue == null) return;
             SelectedPath = Folder.SelectedValue.ToString();
@@ -192,6 +184,14 @@ namespace PdmReader {
             SelectedPath.WriteConfig();
             Folder.ItemsSource = ConfigSetting.ReadConfig().Select(r => r.Value);
             Lock.IsChecked = true;
+        }
+
+        private void DeleteBtn_OnMouseLeftButtonDown(object sender, MouseButtonEventArgs e) {
+            var btn = sender as Image;
+            if(btn == null)
+                return;
+            btn.DataContext.ToString().DeleteConfig();
+            Folder.ItemsSource = ConfigSetting.ReadConfig().Select(r => r.Value);
         }
     }
 }
