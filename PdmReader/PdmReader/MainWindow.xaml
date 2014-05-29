@@ -44,6 +44,7 @@
                           IsEditable="True"
                           ItemTemplate="{StaticResource ComboBoxData}"
                           KeyDown="Folder_KeyDown"
+                          SelectionChanged="Folder_SelectionChanged"
                           Text="请选择文件夹..." />
                 <Button HorizontalAlignment="Left"
                         Click="Folder_Click"

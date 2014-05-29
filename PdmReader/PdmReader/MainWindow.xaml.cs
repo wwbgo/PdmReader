@@ -103,7 +103,7 @@ namespace PdmReader {
                 return;
             Folder.Text = fbd.SelectedPath;
             SelectedPath = fbd.SelectedPath;
-            ListShows = GetPdmFiles(Folder.Text, string.Format("*{0}*.pdm", SqlCheck.SelectedItem != null && SqlCheck.SelectionBoxItem.ToString() != "All" ? SqlCheck.SelectionBoxItem.ToString() : string.Empty)).ToList();
+            ListShows = GetPdmFiles(SelectedPath, string.Format("*{0}*.pdm", SqlCheck.SelectedItem != null && SqlCheck.SelectionBoxItem.ToString() != "All" ? SqlCheck.SelectionBoxItem.ToString() : string.Empty)).ToList();
             ListShow.ItemsSource = ListShows;
             foreach(var listShow in ListShows) {
                 PdmModels.Add(PdmFileReader.ReadFromFile(listShow));
@@ -113,17 +113,16 @@ namespace PdmReader {
             Lock.IsChecked = true;
         }
         private void Folder_KeyDown(object sender, KeyEventArgs e) {
-            if(e.Key == Key.Return) {
-                SelectedPath = Folder.Text;
-                ListShows = GetPdmFiles(Folder.Text, string.Format("*{0}*.pdm", SqlCheck.SelectedItem != null && SqlCheck.SelectionBoxItem.ToString() != "All" ? SqlCheck.SelectionBoxItem.ToString() : string.Empty)).ToList();
-                ListShow.ItemsSource = ListShows;
-                foreach(var listShow in ListShows) {
-                    PdmModels.Add(PdmFileReader.ReadFromFile(listShow));
-                }
-                SelectedPath.WriteConfig();
-                Folder.ItemsSource = ConfigSetting.ReadConfig().Select(r => r.Value);
-                Lock.IsChecked = true;
+            if(e.Key != Key.Return) return;
+            SelectedPath = Folder.Text;
+            ListShows = GetPdmFiles(SelectedPath, string.Format("*{0}*.pdm", SqlCheck.SelectedItem != null && SqlCheck.SelectionBoxItem.ToString() != "All" ? SqlCheck.SelectionBoxItem.ToString() : string.Empty)).ToList();
+            ListShow.ItemsSource = ListShows;
+            foreach(var listShow in ListShows) {
+                PdmModels.Add(PdmFileReader.ReadFromFile(listShow));
             }
+            SelectedPath.WriteConfig();
+            Folder.ItemsSource = ConfigSetting.ReadConfig().Select(r => r.Value);
+            Lock.IsChecked = true;
         }
 
         private void ListShow_MouseDoubleClick(object sender, MouseButtonEventArgs e) {
@@ -180,6 +179,19 @@ namespace PdmReader {
                 return;
             btn.DataContext.ToString().DeleteConfig();
             Folder.ItemsSource = ConfigSetting.ReadConfig().Select(r => r.Value);
+        }
+
+        private void Folder_SelectionChanged(object sender, SelectionChangedEventArgs e) {
+            if(Folder.SelectedValue == null) return;
+            SelectedPath = Folder.SelectedValue.ToString();
+            ListShows = GetPdmFiles(SelectedPath, string.Format("*{0}*.pdm", SqlCheck.SelectedItem != null && SqlCheck.SelectionBoxItem.ToString() != "All" ? SqlCheck.SelectionBoxItem.ToString() : string.Empty)).ToList();
+            ListShow.ItemsSource = ListShows;
+            foreach(var listShow in ListShows) {
+                PdmModels.Add(PdmFileReader.ReadFromFile(listShow));
+            }
+            SelectedPath.WriteConfig();
+            Folder.ItemsSource = ConfigSetting.ReadConfig().Select(r => r.Value);
+            Lock.IsChecked = true;
         }
     }
 }
