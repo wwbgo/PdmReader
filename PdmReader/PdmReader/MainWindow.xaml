@@ -19,11 +19,9 @@
                            VerticalAlignment="Center"
                            Text="{Binding}" />
                 <Button x:Name="DeleteBtn"
-                        Height="20"
-                        VerticalContentAlignment="Top"
-                        Background="Silver"
-                        Click="DeleteBtn_OnClick"
-                        Content="x" />
+                        Click="DeleteBtn_OnClick">
+                    <Image Source="x.png" />
+                </Button>
             </Grid>
         </DataTemplate>
     </Window.Resources>

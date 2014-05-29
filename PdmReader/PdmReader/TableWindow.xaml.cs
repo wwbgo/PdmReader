@@ -15,7 +15,7 @@ namespace PdmReader {
             var table = Tables.CurrentItem as TableInfo;
             if(table == null) return;
             var tableInfo = new TableInfoWindow {
-                Title = string.Format("{0}(表)", table.Name),
+                Title = string.Format("{0}(表)({1})", table.Name, table.Code),
                 TableInfo = {
                     ItemsSource = table.Columns,
                     IsReadOnly = true
@@ -28,7 +28,7 @@ namespace PdmReader {
             var view = Views.CurrentItem as ViewInfo;
             if(view == null) return;
             var tableInfo = new TableInfoWindow {
-                Title = string.Format("{0}(视图)", view.Name),
+                Title = string.Format("{0}(视图)({1})", view.Name, view.Code),
                 TableInfo = {
                     ItemsSource = view.Columns,
                     IsReadOnly = true
