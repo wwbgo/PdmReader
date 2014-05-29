@@ -149,7 +149,7 @@ namespace PdmReader {
             //var source = PdmModels.SelectMany(r => r.Tables).Where(r => r.Columns.Select(v => v.Code).Contains(Search.Text) || r.Columns.Select(v => v.Name).Contains(Search.Text));
             var source = PdmModels.SelectMany(r => r.Tables).Where(r => r.Code.ToLower().Contains(Search.Text.ToLower()) || r.Name.ToLower().Contains(Search.Text.ToLower()) ||
                                                                         Search.Text.ToLower().Contains(r.Code.ToLower()) || Search.Text.ToLower().Contains(r.Name.ToLower()) ||
-                                                                        r.Columns.Select(v => v.Code).Contains(Search.Text) || r.Columns.Select(v => v.Name).Contains(Search.Text));
+                                                                        r.Columns.Select(v => v.Code).Contains(Search.Text) || r.Columns.Select(v => v.Name).Contains(Search.Text)).ToArray();
             if(!source.Any())
                 return;
             var searchWindow = new SearchWindow {
