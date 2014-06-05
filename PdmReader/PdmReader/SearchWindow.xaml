@@ -8,6 +8,7 @@
     <Grid>
         <DataGrid Name="Search"
                   HorizontalAlignment="Stretch"
+                  KeyDown="Search_OnKeyDown"
                   MouseDoubleClick="Search_OnMouseDoubleClick"
                   SelectionUnit="CellOrRowHeader" />
     </Grid>

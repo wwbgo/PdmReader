@@ -67,7 +67,7 @@
             <TextBox Name="Search"
                      MinWidth="350"
                      MaxWidth="600"
-                     HorizontalAlignment="Left"
+                     KeyDown="Search_KeyDown"
                      Text="查询表名或字段名"
                      TextWrapping="Wrap" />
             <Button HorizontalAlignment="Left"
@@ -79,6 +79,7 @@
                  MinHeight="200"
                  HorizontalAlignment="Stretch"
                  VerticalAlignment="Top"
+                 KeyDown="ListShow_KeyDown"
                  MouseDoubleClick="ListShow_MouseDoubleClick" />
     </Grid>
 </Window>

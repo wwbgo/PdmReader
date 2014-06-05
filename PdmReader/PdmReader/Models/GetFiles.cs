@@ -17,7 +17,7 @@ namespace PdmReader.Models {
                 MessageBox.Show("指定文件夹不存在！");
                 yield break;
             }
-            foreach(var file in Directory.GetFileSystemEntries(dir, searchPattern, SearchOption.AllDirectories).Where(File.Exists)) {
+            foreach(var file in Directory.GetFileSystemEntries(dir, searchPattern, SearchOption.AllDirectories).Where(File.Exists).ToArray()) {
                 yield return file;
             }
         }

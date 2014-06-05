@@ -26,8 +26,16 @@ namespace PdmReader {
         private void Init() {
             Folder.ItemsSource = ConfigSetting.ReadConfig().Select(r => r.Value);
             Folder.Focus();
-            //Folder.MouseDoubleClick += (sender, e) => Folder.SelectAll();
+            Folder.MouseDoubleClick += (sender, e) => Folder.IsDropDownOpen = true;
             Search.MouseDoubleClick += (sender, e) => Search.SelectAll();
+            Search.GotFocus += (sender, e) => {
+                if(Search.Text == "查询表名或字段名")
+                    Search.Text = "";
+            };
+            Search.LostFocus += (sender, e) => {
+                if(string.IsNullOrWhiteSpace(Search.Text))
+                    Search.Text = "查询表名或字段名";
+            };
         }
 
         //未使用
@@ -126,41 +134,19 @@ namespace PdmReader {
         }
 
         private void ListShow_MouseDoubleClick(object sender, MouseButtonEventArgs e) {
-            if(ListShow.SelectedItem == null) return;
-            var pdmModels = PdmFileReader.ReadFromFile(ListShow.SelectedValue.ToString());
-            var tableWindow = new TableWindow {
-                Title = ListShow.SelectedValue.ToString(),
-                Views = {
-                    ItemsSource = pdmModels.Views,
-                    IsReadOnly = true,
-                    CanUserAddRows = false
-                },
-                Tables = {
-                    ItemsSource = pdmModels.Tables,
-                    IsReadOnly = true,
-                    CanUserAddRows = false
-                }
-            };
-            tableWindow.Show();
+            TableWindowShow();
+        }
+        private void ListShow_KeyDown(object sender, KeyEventArgs e) {
+            if(e.Key != Key.Return) return;
+            TableWindowShow();
         }
 
         private void Search_Click(object sender, RoutedEventArgs e) {
-            if(string.IsNullOrWhiteSpace(Search.Text) || !PdmModels.Any()) return;
-            //var source = PdmModels.SelectMany(r => r.Tables).Where(r => r.Columns.Select(v => v.Code).Contains(Search.Text) || r.Columns.Select(v => v.Name).Contains(Search.Text));
-            var source = PdmModels.SelectMany(r => r.Tables).Where(r => r.Code.ToLower().Contains(Search.Text.ToLower()) || r.Name.ToLower().Contains(Search.Text.ToLower()) ||
-                                                                        Search.Text.ToLower().Contains(r.Code.ToLower()) || Search.Text.ToLower().Contains(r.Name.ToLower()) ||
-                                                                        r.Columns.Select(v => v.Code).Contains(Search.Text) || r.Columns.Select(v => v.Name).Contains(Search.Text)).ToArray();
-            if(!source.Any())
-                return;
-            var searchWindow = new SearchWindow {
-                Title = string.Format("关键字：{0}", Search.Text),
-                Search = {
-                    IsReadOnly = true,
-                    CanUserAddRows = false,
-                    ItemsSource = source
-                }
-            };
-            searchWindow.Show();
+            SearchWindowShow();
+        }
+        private void Search_KeyDown(object sender, KeyEventArgs e) {
+            if(e.Key != Key.Return) return;
+            SearchWindowShow();
         }
 
         private void Lock_Checked(object sender, RoutedEventArgs e) {
@@ -192,6 +178,44 @@ namespace PdmReader {
                 return;
             btn.DataContext.ToString().DeleteConfig();
             Folder.ItemsSource = ConfigSetting.ReadConfig().Select(r => r.Value);
+        }
+
+
+        private void SearchWindowShow() {
+            if(string.IsNullOrWhiteSpace(Search.Text) || !PdmModels.Any()) return;
+            //var source = PdmModels.SelectMany(r => r.Tables).Where(r => r.Columns.Select(v => v.Code).Contains(Search.Text) || r.Columns.Select(v => v.Name).Contains(Search.Text));
+            var source = PdmModels.SelectMany(r => r.Tables).Where(r => r.Code.ToLower().Contains(Search.Text.ToLower()) || r.Name.ToLower().Contains(Search.Text.ToLower()) ||
+                                                                        Search.Text.ToLower().Contains(r.Code.ToLower()) || Search.Text.ToLower().Contains(r.Name.ToLower()) ||
+                                                                        r.Columns.Select(v => v.Code).Contains(Search.Text) || r.Columns.Select(v => v.Name).Contains(Search.Text)).ToArray();
+            if(!source.Any())
+                return;
+            var searchWindow = new SearchWindow {
+                Title = string.Format("关键字：{0}", Search.Text),
+                Search = {
+                    IsReadOnly = true,
+                    CanUserAddRows = false,
+                    ItemsSource = source
+                }
+            };
+            searchWindow.Show();
+        }
+        private void TableWindowShow() {
+            if(ListShow.SelectedItem == null) return;
+            var pdmModels = PdmFileReader.ReadFromFile(ListShow.SelectedValue.ToString());
+            var tableWindow = new TableWindow {
+                Title = ListShow.SelectedValue.ToString(),
+                Views = {
+                    ItemsSource = pdmModels.Views,
+                    IsReadOnly = true,
+                    CanUserAddRows = false
+                },
+                Tables = {
+                    ItemsSource = pdmModels.Tables,
+                    IsReadOnly = true,
+                    CanUserAddRows = false
+                }
+            };
+            tableWindow.Show();
         }
     }
 }

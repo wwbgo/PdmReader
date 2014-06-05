@@ -20,6 +20,7 @@
         <DataGrid Name="Views"
                   Grid.Row="1"
                   HorizontalAlignment="Stretch"
+                  KeyDown="Views_KeyDown"
                   MouseDoubleClick="Views_MouseDoubleClick"
                   SelectionUnit="CellOrRowHeader" />
     </Grid>

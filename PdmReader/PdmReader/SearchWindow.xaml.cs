@@ -12,6 +12,14 @@ namespace PdmReader {
         }
 
         private void Search_OnMouseDoubleClick(object sender, MouseButtonEventArgs e) {
+            TableInfoShow();
+        }
+        private void Search_OnKeyDown(object sender, KeyEventArgs e) {
+            if(e.Key != Key.Enter) return;
+            TableInfoShow();
+        }
+
+        private void TableInfoShow() {
             var table = Search.CurrentItem as TableInfo;
             if(table == null) return;
             var tableInfo = new TableInfoWindow {
