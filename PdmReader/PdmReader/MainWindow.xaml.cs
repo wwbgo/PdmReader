@@ -27,7 +27,7 @@ namespace PdmReader {
             Folder.ItemsSource = ConfigSetting.ReadConfig().Select(r => r.Value);
             Folder.Focus();
             Folder.MouseDoubleClick += (sender, e) => Folder.IsDropDownOpen = true;
-            Search.MouseDoubleClick += (sender, e) => Search.SelectAll();
+            Search.MouseDoubleClick += (sender, e) => Search.IsDropDownOpen = true;
             Search.GotFocus += (sender, e) => {
                 if(Search.Text == "查询表名或字段名")
                     Search.Text = "";
@@ -80,6 +80,17 @@ namespace PdmReader {
             set {
                 _listShows = value;
                 OnPropertyChanged("ListShows");
+            }
+        }
+
+        private List<string> _searchList;
+        public List<string> SearchList {
+            get {
+                return _searchList ?? (_searchList = new List<string>());
+            }
+            set {
+                _searchList = value;
+                OnPropertyChanged("SearchList");
             }
         }
 
@@ -142,10 +153,14 @@ namespace PdmReader {
         }
 
         private void Search_Click(object sender, RoutedEventArgs e) {
+            SearchList.Add(Search.Text);
+            Search.ItemsSource = SearchList.OrderByDescending(r => r);
             SearchWindowShow();
         }
         private void Search_KeyDown(object sender, KeyEventArgs e) {
             if(e.Key != Key.Return) return;
+            SearchList.Add(Search.Text);
+            Search.ItemsSource = SearchList.OrderByDescending(r => r);
             SearchWindowShow();
         }
 
@@ -217,5 +232,6 @@ namespace PdmReader {
             };
             tableWindow.Show();
         }
+
     }
 }

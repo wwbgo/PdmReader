@@ -24,6 +24,11 @@
                            Text="{Binding}" />
             </Grid>
         </DataTemplate>
+        <DataTemplate x:Key="ComboBoxList"
+                      DataType="ComboBoxItem">
+            <TextBlock VerticalAlignment="Center"
+                       Text="{Binding}" />
+        </DataTemplate>
     </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
@@ -64,12 +69,13 @@
                     HorizontalAlignment="Left"
                     VerticalAlignment="Top"
                     Orientation="Horizontal">
-            <TextBox Name="Search"
-                     MinWidth="350"
-                     MaxWidth="600"
-                     KeyDown="Search_KeyDown"
-                     Text="查询表名或字段名"
-                     TextWrapping="Wrap" />
+            <ComboBox Name="Search"
+                      MinWidth="350"
+                      MaxWidth="600"
+                      IsEditable="True"
+                      ItemTemplate="{StaticResource ComboBoxList}"
+                      KeyDown="Search_KeyDown"
+                      Text="查询表名或字段名" />
             <Button HorizontalAlignment="Left"
                     Click="Search_Click"
                     Content="Search" />
